@@ -4,6 +4,15 @@ function addClass()
     var $lastRow = $tableBody.find("tr:last");
     var $newRow = $lastRow.clone();
 	$lastRow.after($newRow);
+	clearRow();
+}
+
+function clearRow()
+{
+	var $tableBody = $('#gpaTable').find("tbody");
+    var $lastRow = $tableBody.find("tr:last");
+    $lastRow.find('td:eq(0)').find('input').val("");
+    $lastRow.find('td:eq(2)').find('input').val("");
 }
 
 function removeClass()
@@ -19,25 +28,23 @@ function removeClass()
 
 function calculateGrade()
 {
-	var gradeTotal = 0; 
-	var creditsTotal = 0;
+	var grade = 0; 
+	var credits = 0;
+	var gradePoints = 0;
+	var totalCredits = 0;
 
 	$('#gpaTable > tbody > tr').each(function() {
-		$(this).find('td').each(function() {
-			if(this.id == "letter_grade")
-			{
-				gradeTotal += parseGrade((this).find('input').val);
-			}
-			else if(this.id == "credits")
-			{
-				creditsTotal += (this).find('input').val;
-			}
-		})
+		var td = $(this).find('td:eq(1)');
+		grade = parseGrade(td.find('select').val());
+
+		td = $(this).find('td:eq(2)');
+		credits = parseInt(td.find('input').val());
+
+		totalCredits += credits;
+		gradePoints += grade*credits;
 	});
 
-	//console.log(gradeTotal);
-	//console.log(creditsTotal);
-	console.log(gradeTotal/creditsTotal);
+	var gpa = gradePoints/totalCredits;
 }
 
 function parseGrade(text)
@@ -53,6 +60,7 @@ function parseGrade(text)
 		case "C-": return 1.7;
 		case "D+": return 1.3;
 		case "D": return 1;
+		case "D-": return 0.7;
 		case "F": return 0;
 	}
 }

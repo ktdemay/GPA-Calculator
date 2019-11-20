@@ -44,9 +44,10 @@
 								      <option>C-</option>
 								      <option>D+</option>
 								      <option>D</option>
+								      <option>D-</option>
 								      <option>F</option>
 								    </select></td>
-									<td id="credits"><input class="form-control" placeholder="Credits" required></td>
+									<td id="credits"><input oninput="this.value=this.value.replace(/(?![0-9])./gmi,'')" class="form-control" placeholder="Credits" required></td>
 								</tr>
 							</tbody>
 						</table>
