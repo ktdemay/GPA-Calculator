@@ -38,29 +38,48 @@ function calculateGrade()
 		grade = parseGrade(td.find('select').val());
 
 		td = $(this).find('td:eq(2)');
-		credits = parseInt(td.find('input').val());
+		credits = parseFloat(td.find('input').val());
 
 		totalCredits += credits;
 		gradePoints += grade*credits;
+		console.log(grade*credits);
 	});
 
-	var gpa = gradePoints/totalCredits;
+	var cummGPA = document.getElementById("cummGPA").value;
+	var creds = document.getElementById("totalCredits").value;
+
+	if(cummGPA != "" && creds != "")
+	{
+		cummGPA = parseFloat(cummGPA);
+		creds = parseFloat(creds);
+
+		var semGPA = gradePoints/totalCredits;
+		var newCumm = (gradePoints + cummGPA*creds)/(totalCredits+creds);
+		document.getElementById("dispSem").innerText = "Semester GPA: " + semGPA.toFixed(2);
+		document.getElementById("dispCumm").innerText = "Cummulative GPA: " + newCumm.toFixed(2);
+	}
+	else
+	{
+		var gpa = gradePoints/totalCredits;
+		document.getElementById("dispSem").innerText = "Semester GPA: " + gpa.toFixed(2);
+		document.getElementById("dispCumm").innerText = "";
+	}
 }
 
 function parseGrade(text)
 {
 	switch(text){
 		case "A": return 4;
-		case "A-": return 3.7;
-		case "B+": return 3.3;
+		case "A-": return 3.75;
+		case "B+": return 3.25;
 		case "B": return 3;
-		case "B-": return 2.7;
-		case "C+": return 2.3;
+		case "B-": return 2.75;
+		case "C+": return 2.25;
 		case "C": return 2;
-		case "C-": return 1.7;
-		case "D+": return 1.3;
+		case "C-": return 1.75;
+		case "D+": return 1.25;
 		case "D": return 1;
-		case "D-": return 0.7;
+		case "D-": return 0.75;
 		case "F": return 0;
 	}
 }
